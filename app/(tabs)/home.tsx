@@ -5,7 +5,7 @@ import Feather from "@expo/vector-icons/Feather";
 import { Link } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Story from "@/components/home/Story";
-import PostContainer from "@/components/home/Posts";
+import PostContainer from "@/components/home/PostContainer";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import LinearGradient from "react-native-linear-gradient";
 

@@ -1,6 +1,4 @@
 import { View, Text, Image, FlatList, TouchableOpacity } from "react-native";
-import React from "react";
-import LinearGradient from "react-native-linear-gradient";
 import Posts, { PostType } from "@/constants/posts";
 
 const Story = () => {
@@ -13,7 +11,7 @@ const Story = () => {
       }}
       style={{
         paddingVertical: 16,
-        paddingHorizontal: 16,
+        marginHorizontal: 12,
       }}
       renderItem={SingleStory}
     />
@@ -27,10 +25,10 @@ const SingleStory = ({ item }: { item: PostType }) => {
     <TouchableOpacity>
       <View
         style={{
-          height: 85,
-          width: 85,
+          height: 80,
+          width: 80,
           marginBottom: 8,
-          backgroundColor: "pink",
+          backgroundColor: "#E3256B",
           borderRadius: 100,
           justifyContent: "center",
           alignItems: "center",
@@ -42,8 +40,8 @@ const SingleStory = ({ item }: { item: PostType }) => {
           }}
           style={{
             position: "absolute",
-            height: 80,
-            width: 80,
+            height: 75,
+            width: 75,
             borderRadius: 100,
             objectFit: "cover",
             borderWidth: 3,
@@ -51,7 +49,9 @@ const SingleStory = ({ item }: { item: PostType }) => {
           }}
         />
       </View>
-      <Text style={{ color: "white", fontSize: 12 }}>akhil_palsra</Text>
+      <Text style={{ color: "white", fontSize: 12, textAlign: "center" }}>
+        akhil_palsra
+      </Text>
     </TouchableOpacity>
   );
 };

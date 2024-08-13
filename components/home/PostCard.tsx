@@ -1,51 +1,43 @@
+import React, { MutableRefObject, useRef, useState } from "react";
+import { PostType } from "@/constants/posts";
+import Entypo from "@expo/vector-icons/Entypo";
+import Feather from "@expo/vector-icons/Feather";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import {
   View,
-  Text,
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
   Image,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  FlatList,
   useWindowDimensions,
 } from "react-native";
-import React from "react";
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import Feather from "@expo/vector-icons/Feather";
-import Entypo from "@expo/vector-icons/Entypo";
-import Posts, { PostType } from "@/constants/posts";
 
-const PostContainer = () => {
-  return (
-    <FlatList
-      data={Posts}
-      renderItem={Post}
-      keyExtractor={(item) => item.id}
-      initialNumToRender={10}
-      maxToRenderPerBatch={10}
-      scrollEnabled={false}
-      contentContainerStyle={{
-        gap: 16,
-      }}
-    />
-  );
-};
+export const PostCard = ({ item }: { item: PostType }) => {
+  const [activeLike, setActiveLike] = useState(false);
+  const [activeBookmark, setActiveBookmark] = useState(false);
 
-export default PostContainer;
+  // const doubleTap = Gesture.Tap()
+  //   .numberOfTaps(2)
+  //   .onEnd(() => {
+  //     setActiveLike(true);
+  //   });
 
-const Post = ({ item }: { item: PostType }) => {
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const onViewableItemsChanged = useRef((item: any) => {
+    const index = item.viewableItems[0].index;
+    setCurrentSlideIndex(index);
+  });
+  const viewabilityConfig = useRef({
+    itemVisiblePercentThreshold: 50,
+  });
+
   return (
     <View>
       {/* USER */}
       <View style={styles.userContainer}>
         <TouchableOpacity style={styles.userBox}>
-          {/* <View */}
-          {/*   style={{ */}
-          {/*     height: 28, */}
-          {/*     width: 28, */}
-          {/*     borderRadius: 100, */}
-          {/*     overflow: "hidden", */}
-          {/*   }} */}
-          {/* > */}
           <Image
             source={{
               uri: item.user.avatar_url,
@@ -53,18 +45,11 @@ const Post = ({ item }: { item: PostType }) => {
             width={32}
             height={32}
             style={{
-              objectFit: "cover",
               borderRadius: 100,
+              resizeMode: "cover",
             }}
           />
-          {/* </View> */}
-          <Text
-            style={{
-              color: "white",
-            }}
-          >
-            {item.user.username}
-          </Text>
+          <Text style={{ color: "white" }}>{item.user.username}</Text>
         </TouchableOpacity>
         <TouchableOpacity>
           <Entypo name="dots-three-vertical" size={18} color="white" />
@@ -73,14 +58,42 @@ const Post = ({ item }: { item: PostType }) => {
       {/* USER */}
 
       {/* IMAGE */}
-      <ImageContainer images={item.images} />
+      <View>
+        <ImageContainer
+          items={item}
+          onViewableItemsChanged={onViewableItemsChanged}
+          viewabilityConfig={viewabilityConfig}
+        />
+        {item.images.length > 1 && (
+          <View
+            style={{
+              position: "absolute",
+              right: 16,
+              top: 16,
+              zIndex: 10,
+              paddingHorizontal: 12,
+              paddingVertical: 6,
+              borderRadius: 16,
+              backgroundColor: "black",
+            }}
+          >
+            <Text style={{ color: "white", fontSize: 12 }}>
+              {currentSlideIndex + 1}/{item.images.length}
+            </Text>
+          </View>
+        )}
+      </View>
       {/* IMAGE */}
 
       {/* Comment Section */}
       <View style={styles.iconContainer}>
         <View style={styles.likeBox}>
-          <TouchableOpacity>
-            <Feather name="heart" size={24} color="white" />
+          <TouchableOpacity onPress={() => setActiveLike(!activeLike)}>
+            {activeLike ? (
+              <FontAwesome name="heart" size={24} color="red" />
+            ) : (
+              <FontAwesome name="heart-o" size={24} color="white" />
+            )}
           </TouchableOpacity>
           <TouchableOpacity>
             <FontAwesome6 name="comment" size={24} color="white" />
@@ -89,8 +102,12 @@ const Post = ({ item }: { item: PostType }) => {
             <Feather name="send" size={24} color="white" />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity>
-          <FontAwesome name="bookmark-o" size={24} color="white" />
+        <TouchableOpacity onPress={() => setActiveBookmark(!activeBookmark)}>
+          {activeBookmark ? (
+            <FontAwesome name="bookmark" size={24} color="white" />
+          ) : (
+            <FontAwesome name="bookmark-o" size={24} color="white" />
+          )}
         </TouchableOpacity>
       </View>
       <View style={styles.captionContainer}>
@@ -108,15 +125,26 @@ const Post = ({ item }: { item: PostType }) => {
     </View>
   );
 };
-const ImageContainer = ({ images }: { images: string[] }) => {
+
+const ImageContainer = ({
+  items,
+  onViewableItemsChanged,
+  viewabilityConfig,
+}: {
+  items: PostType;
+  onViewableItemsChanged: MutableRefObject<(item: any) => void>;
+  viewabilityConfig: MutableRefObject<{ itemVisiblePercentThreshold: number }>;
+}) => {
   const { width } = useWindowDimensions();
   return (
     <FlatList
-      data={images}
+      data={items.images}
       horizontal
       pagingEnabled
       showsHorizontalScrollIndicator={false}
       keyExtractor={(item) => item}
+      onViewableItemsChanged={onViewableItemsChanged.current}
+      viewabilityConfig={viewabilityConfig.current}
       renderItem={({ item }: { item: string }) => (
         <View style={(styles.ImageContainer, { width: width, aspectRatio: 1 })}>
           <Image
@@ -126,7 +154,7 @@ const ImageContainer = ({ images }: { images: string[] }) => {
             style={{
               width: "100%",
               height: "100%",
-              objectFit: "cover",
+              resizeMode: "cover",
             }}
           />
         </View>
