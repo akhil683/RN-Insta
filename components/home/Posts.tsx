@@ -4,6 +4,8 @@ import {
   FlatList,
   StyleSheet,
   TouchableOpacity,
+  Image,
+  useWindowDimensions,
 } from "react-native";
 import React from "react";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
@@ -36,14 +38,26 @@ const Post = ({ item }: { item: PostType }) => {
       {/* USER */}
       <View style={styles.userContainer}>
         <TouchableOpacity style={styles.userBox}>
-          <View
+          {/* <View */}
+          {/*   style={{ */}
+          {/*     height: 28, */}
+          {/*     width: 28, */}
+          {/*     borderRadius: 100, */}
+          {/*     overflow: "hidden", */}
+          {/*   }} */}
+          {/* > */}
+          <Image
+            source={{
+              uri: item.user.avatar_url,
+            }}
+            width={32}
+            height={32}
             style={{
-              height: 28,
-              width: 28,
-              backgroundColor: "white",
+              objectFit: "cover",
               borderRadius: 100,
             }}
           />
+          {/* </View> */}
           <Text
             style={{
               color: "white",
@@ -59,7 +73,7 @@ const Post = ({ item }: { item: PostType }) => {
       {/* USER */}
 
       {/* IMAGE */}
-      <View style={styles.image} />
+      <ImageContainer images={item.images} />
       {/* IMAGE */}
 
       {/* Comment Section */}
@@ -80,7 +94,7 @@ const Post = ({ item }: { item: PostType }) => {
         </TouchableOpacity>
       </View>
       <View style={styles.captionContainer}>
-        <Text style={{ color: "white" }}>254 likes</Text>
+        <Text style={{ color: "white" }}>{item.likes} likes</Text>
         <Text style={{ color: "white" }}>
           <Text style={{ fontWeight: "bold" }}>{item.user.username}</Text>{" "}
           {item.caption}
@@ -88,20 +102,52 @@ const Post = ({ item }: { item: PostType }) => {
         <TouchableOpacity style={{ marginTop: 6 }}>
           <Text style={{ color: "gray" }}>View all comments</Text>
         </TouchableOpacity>
+        <Text style={{ color: "gray" }}>28 May, 2019</Text>
       </View>
       {/* Comment Section */}
     </View>
   );
 };
+const ImageContainer = ({ images }: { images: string[] }) => {
+  const { width } = useWindowDimensions();
+  return (
+    <FlatList
+      data={images}
+      horizontal
+      pagingEnabled
+      showsHorizontalScrollIndicator={false}
+      keyExtractor={(item) => item}
+      renderItem={({ item }: { item: string }) => (
+        <View style={(styles.ImageContainer, { width: width, aspectRatio: 1 })}>
+          <Image
+            source={{
+              uri: item,
+            }}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+        </View>
+      )}
+    />
+  );
+};
 const styles = StyleSheet.create({
-  image: {
+  ImageContainer: {
     backgroundColor: "white",
+    overflow: "hidden",
+  },
+  image: {
     width: "100%",
-    aspectRatio: 1,
+    height: "100%",
+    objectFit: "contain",
   },
   userContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 12,
     marginBottom: 6,
   },

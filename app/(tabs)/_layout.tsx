@@ -1,7 +1,8 @@
 import { Tabs } from "expo-router";
 import React from "react";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import Octicons from "@expo/vector-icons/Octicons";
+import Foundation from "@expo/vector-icons/Foundation";
+
 export default function TabLayout() {
   return (
     <Tabs
@@ -23,7 +24,7 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => (
-            <Octicons name="home" size={32} color={color} />
+            <Foundation name="home" size={28} color={color} />
           ),
         }}
       />
@@ -32,7 +33,7 @@ export default function TabLayout() {
         options={{
           title: "Profile",
           tabBarIcon: ({ color }) => (
-            <MaterialIcons name="account-circle" size={32} color={color} />
+            <MaterialIcons name="account-circle" size={28} color={color} />
           ),
         }}
       />

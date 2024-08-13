@@ -1,45 +1,57 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, FlatList, TouchableOpacity } from "react-native";
 import React from "react";
+import LinearGradient from "react-native-linear-gradient";
+import Posts, { PostType } from "@/constants/posts";
 
 const Story = () => {
   return (
-    <View
-      style={{
-        paddingLeft: 16,
-        paddingVertical: 16,
+    <FlatList
+      data={Posts}
+      horizontal
+      contentContainerStyle={{
+        gap: 20,
       }}
-    >
-      <SingleStory />
-    </View>
+      style={{
+        paddingVertical: 16,
+        paddingHorizontal: 16,
+      }}
+      renderItem={SingleStory}
+    />
   );
 };
 
 export default Story;
 
-const SingleStory = () => {
+const SingleStory = ({ item }: { item: PostType }) => {
   return (
-    <View>
+    <TouchableOpacity>
       <View
         style={{
-          height: 70,
-          width: 70,
+          height: 85,
+          width: 85,
           marginBottom: 8,
+          backgroundColor: "pink",
+          borderRadius: 100,
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <Image
-          source={require("../../assets/images/white.jpeg")}
+          source={{
+            uri: item.user.avatar_url,
+          }}
           style={{
             position: "absolute",
-            height: 70,
-            width: 70,
+            height: 80,
+            width: 80,
             borderRadius: 100,
             objectFit: "cover",
-            borderWidth: 4,
-            borderColor: "#888",
+            borderWidth: 3,
+            borderColor: "black",
           }}
         />
       </View>
       <Text style={{ color: "white", fontSize: 12 }}>akhil_palsra</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
