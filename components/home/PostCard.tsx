@@ -13,6 +13,12 @@ import {
   FlatList,
   useWindowDimensions,
 } from "react-native";
+import { router } from "expo-router";
+// import {
+//   GestureHandlerRootView,
+//   State,
+//   TapGestureHandler,
+// } from "react-native-gesture-handler";
 
 export const PostCard = ({ item }: { item: PostType }) => {
   const [activeLike, setActiveLike] = useState(false);
@@ -32,6 +38,9 @@ export const PostCard = ({ item }: { item: PostType }) => {
   const viewabilityConfig = useRef({
     itemVisiblePercentThreshold: 50,
   });
+  const handleDoubleTap = () => {
+    setActiveLike(true);
+  };
 
   return (
     <View>
@@ -59,29 +68,40 @@ export const PostCard = ({ item }: { item: PostType }) => {
 
       {/* IMAGE */}
       <View>
-        <ImageContainer
-          items={item}
-          onViewableItemsChanged={onViewableItemsChanged}
-          viewabilityConfig={viewabilityConfig}
-        />
-        {item.images.length > 1 && (
-          <View
-            style={{
-              position: "absolute",
-              right: 16,
-              top: 16,
-              zIndex: 10,
-              paddingHorizontal: 12,
-              paddingVertical: 6,
-              borderRadius: 16,
-              backgroundColor: "black",
-            }}
-          >
-            <Text style={{ color: "white", fontSize: 12 }}>
-              {currentSlideIndex + 1}/{item.images.length}
-            </Text>
-          </View>
-        )}
+        {/* <TapGestureHandler */}
+        {/*   onHandlerStateChange={({ nativeEvent }) => { */}
+        {/*     if (nativeEvent.state === State.ACTIVE) { */}
+        {/*       handleDoubleTap(); */}
+        {/*     } */}
+        {/*   }} */}
+        {/*   numberOfTaps={2} */}
+        {/* > */}
+        <TouchableOpacity activeOpacity={1} onPress={handleDoubleTap}>
+          <ImageContainer
+            items={item}
+            onViewableItemsChanged={onViewableItemsChanged}
+            viewabilityConfig={viewabilityConfig}
+          />
+          {item.images.length > 1 && (
+            <View
+              style={{
+                position: "absolute",
+                right: 16,
+                top: 16,
+                zIndex: 10,
+                paddingHorizontal: 12,
+                paddingVertical: 6,
+                borderRadius: 16,
+                backgroundColor: "black",
+              }}
+            >
+              <Text style={{ color: "white", fontSize: 12 }}>
+                {currentSlideIndex + 1}/{item.images.length}
+              </Text>
+            </View>
+          )}
+        </TouchableOpacity>
+        {/* </TapGestureHandler> */}
       </View>
       {/* IMAGE */}
 
@@ -116,13 +136,19 @@ export const PostCard = ({ item }: { item: PostType }) => {
           <Text style={{ fontWeight: "bold" }}>{item.user.username}</Text>{" "}
           {item.caption}
         </Text>
-        <TouchableOpacity style={{ marginTop: 6 }}>
+        <TouchableOpacity
+          style={{ marginTop: 6 }}
+          onPress={() => router.push("/Comments")}
+        >
           <Text style={{ color: "gray" }}>View all comments</Text>
         </TouchableOpacity>
-        <Text style={{ color: "gray" }}>28 May, 2019</Text>
+        <Text style={{ color: "gray", fontSize: 12, marginTop: 2 }}>
+          28 May, 2019
+        </Text>
       </View>
       {/* Comment Section */}
     </View>
+    // </GestureHandlerRootView>
   );
 };
 

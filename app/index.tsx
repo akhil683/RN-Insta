@@ -1,14 +1,14 @@
-import { SafeAreaView, Text, TouchableOpacity } from "react-native";
-import React, { useEffect } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import React from "react";
 import { router } from "expo-router";
 
 const StartPage = () => {
   return (
-    <SafeAreaView>
+    <View style={{ flex: 1, backgroundColor: "black" }}>
       <TouchableOpacity onPress={() => router.replace("/(tabs)/home")}>
-        <Text>Go to Home Page</Text>
+        <Text style={{ color: "white", fontSize: 32 }}>Go to Home Page</Text>
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 };
 

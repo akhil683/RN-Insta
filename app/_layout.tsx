@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Stack, useRouter } from "expo-router";
+import React from "react";
+import { Stack } from "expo-router";
 
 const RootLayout = () => {
   return (
@@ -13,6 +13,30 @@ const RootLayout = () => {
         name="index"
         options={{
           presentation: "fullScreenModal",
+        }}
+      />
+      <Stack.Screen
+        name="messages"
+        options={{
+          presentation: "fullScreenModal",
+        }}
+      />
+      <Stack.Screen
+        name="Notifications"
+        options={{
+          presentation: "fullScreenModal",
+        }}
+      />
+      <Stack.Screen
+        name="StoryDetail"
+        options={{
+          presentation: "fullScreenModal",
+        }}
+      />
+      <Stack.Screen
+        name="Comments"
+        options={{
+          presentation: "modal",
         }}
       />
     </Stack>

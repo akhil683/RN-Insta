@@ -1,4 +1,4 @@
-import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
+import { View, Image, ScrollView, TouchableOpacity } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Feather from "@expo/vector-icons/Feather";
@@ -6,8 +6,6 @@ import { Link } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Story from "@/components/home/Story";
 import PostContainer from "@/components/home/PostContainer";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import LinearGradient from "react-native-linear-gradient";
 
 const HomePage = () => {
   return (
@@ -17,27 +15,6 @@ const HomePage = () => {
           <HomeNav />
           <Story />
           <PostContainer />
-          <View
-            style={{
-              marginHorizontal: 12,
-              alignItems: "center",
-              flexDirection: "row",
-              gap: 12,
-              marginVertical: 20,
-            }}
-          >
-            <FontAwesome5 name="check-circle" size={32} color="green" />
-            <Text
-              style={{
-                flex: 1,
-                color: "#B4B4B4",
-                lineHeight: 20,
-              }}
-            >
-              You've seen all new posts from the past 3 days from accounts you
-              follow.
-            </Text>
-          </View>
         </ScrollView>
       </SafeAreaView>
     </View>
@@ -80,10 +57,10 @@ const HomeNav = () => {
           gap: 16,
         }}
       >
-        <Link href={"/"}>
+        <Link href={"/Notifications"}>
           <Feather name="heart" size={24} color="white" />
         </Link>
-        <Link href={"/"}>
+        <Link href={"/messages"}>
           <AntDesign name="message1" size={24} color="white" />
         </Link>
       </View>
