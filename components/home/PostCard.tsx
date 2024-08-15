@@ -12,18 +12,24 @@ import {
   StyleSheet,
   FlatList,
   useWindowDimensions,
+  Pressable,
 } from "react-native";
+import { ResizeMode, Video } from "expo-av";
 import { router } from "expo-router";
-// import {
-//   GestureHandlerRootView,
-//   State,
-//   TapGestureHandler,
-// } from "react-native-gesture-handler";
+import { useScrollToTop } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
 
-export const PostCard = ({ item }: { item: PostType }) => {
+export const PostCard = ({
+  item,
+  index,
+  visibleVideoIndex,
+}: {
+  item: PostType;
+  index: number;
+  visibleVideoIndex: number | null;
+}) => {
   const [activeLike, setActiveLike] = useState(false);
   const [activeBookmark, setActiveBookmark] = useState(false);
-
   // const doubleTap = Gesture.Tap()
   //   .numberOfTaps(2)
   //   .onEnd(() => {
@@ -31,6 +37,7 @@ export const PostCard = ({ item }: { item: PostType }) => {
   //   });
 
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+
   const onViewableItemsChanged = useRef((item: any) => {
     const index = item.viewableItems[0].index;
     setCurrentSlideIndex(index);
@@ -38,9 +45,9 @@ export const PostCard = ({ item }: { item: PostType }) => {
   const viewabilityConfig = useRef({
     itemVisiblePercentThreshold: 50,
   });
-  const handleDoubleTap = () => {
-    setActiveLike(true);
-  };
+  // const handleDoubleTap = () => {
+  //   setActiveLike(true);
+  // };
 
   return (
     <View>
@@ -69,11 +76,19 @@ export const PostCard = ({ item }: { item: PostType }) => {
       {/* IMAGE */}
       <View>
         <View>
-          <ImageContainer
-            items={item}
-            onViewableItemsChanged={onViewableItemsChanged}
-            viewabilityConfig={viewabilityConfig}
-          />
+          {item.images.length > 0 ? (
+            <ImageContainer
+              items={item}
+              onViewableItemsChanged={onViewableItemsChanged}
+              viewabilityConfig={viewabilityConfig}
+            />
+          ) : (
+            <VideoContainer
+              items={item}
+              index={index}
+              visibleVideoIndex={visibleVideoIndex}
+            />
+          )}
           {item.images.length > 1 && (
             <View
               style={{
@@ -165,6 +180,7 @@ const ImageContainer = ({
       viewabilityConfig={viewabilityConfig.current}
       renderItem={({ item }: { item: string }) => (
         <View style={(styles.ImageContainer, { width: width, aspectRatio: 1 })}>
+          {}
           <Image
             source={{
               uri: item,
@@ -178,6 +194,57 @@ const ImageContainer = ({
         </View>
       )}
     />
+  );
+};
+
+const VideoContainer = ({
+  items,
+  index,
+  visibleVideoIndex,
+}: {
+  items: PostType;
+  index: number;
+  visibleVideoIndex: number | null;
+}) => {
+  const { width } = useWindowDimensions();
+  const [mute, setMute] = useState(true);
+
+  return (
+    <Pressable
+      onPress={() => setMute(!mute)}
+      style={(styles.ImageContainer, { width: width, aspectRatio: 3 / 2 })}
+    >
+      {}
+      <Video
+        source={{
+          uri: items.video,
+        }}
+        volume={1.0}
+        isMuted={mute}
+        shouldPlay
+        resizeMode={ResizeMode.COVER}
+        style={{
+          width: "100%",
+          height: "100%",
+        }}
+      />
+      <View
+        style={{
+          padding: 4,
+          backgroundColor: "black",
+          position: "absolute",
+          bottom: 12,
+          right: 12,
+          borderRadius: 100,
+        }}
+      >
+        {mute ? (
+          <Ionicons name="volume-mute" size={20} color="white" />
+        ) : (
+          <Ionicons name="volume-high-outline" size={20} color="white" />
+        )}
+      </View>
+    </Pressable>
   );
 };
 const styles = StyleSheet.create({

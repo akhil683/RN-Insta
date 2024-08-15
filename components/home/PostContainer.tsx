@@ -2,13 +2,28 @@ import { View, FlatList, Text } from "react-native";
 import Posts from "@/constants/posts";
 import { PostCard } from "./PostCard";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { useRef, useState } from "react";
 
 const PostContainer = () => {
+  const [visibleVideoIndex, setVisibleVideoIndex] = useState(null);
+  const viewabilityConfig = { itemVisiblePercentThreshold: 50 }; // Adjust visibility threshold
+
+  const onViewableItemsChanged = useRef((item: any) => {
+    console.log(item);
+    const index = item.viewableItem[0].index;
+    setVisibleVideoIndex(index);
+  }).current;
   return (
     <>
       <FlatList
         data={Posts}
-        renderItem={({ item }) => <PostCard item={item} />}
+        renderItem={({ item, index }) => (
+          <PostCard
+            item={item}
+            index={index}
+            visibleVideoIndex={visibleVideoIndex}
+          />
+        )}
         keyExtractor={(item) => item.id.toString()}
         initialNumToRender={10}
         maxToRenderPerBatch={10}
@@ -16,6 +31,8 @@ const PostContainer = () => {
         contentContainerStyle={{
           gap: 16,
         }}
+        onViewableItemsChanged={onViewableItemsChanged}
+        viewabilityConfig={viewabilityConfig}
       />
       <View
         style={{

@@ -75,7 +75,16 @@ const StoryUI = () => {
       />
 
       <View style={styles.header}>
-        <SafeAreaView style={styles.profileContainer}>
+        <View style={styles.indicatorRow}>
+          {stories.map((story, index) => {
+            const color = index <= storyIndex ? "white" : "gray";
+            return (
+              <View style={[styles.indicator, { backgroundColor: color }]} />
+            );
+          })}
+        </View>
+
+        <View style={styles.profileContainer}>
           <Image
             source={{ uri: user.user.avatar_url }}
             width={24}
@@ -83,7 +92,7 @@ const StoryUI = () => {
             style={{ borderRadius: 100 }}
           />
           <Text style={styles.username}>{user.user.username}</Text>
-        </SafeAreaView>
+        </View>
       </View>
       <View style={styles.footer}>
         <TextInput
@@ -113,7 +122,7 @@ const styles = StyleSheet.create({
   },
   header: {
     position: "absolute",
-    backgroundColor: "rgba(0, 0, 0, 0.1)",
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
     top: 0,
     width: "100%",
     padding: 10,
@@ -147,5 +156,15 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "35%",
     height: "100%",
+  },
+  indicatorRow: {
+    gap: 5,
+    marginBottom: 8,
+    flexDirection: "row",
+  },
+  indicator: {
+    flex: 1,
+    borderRadius: 4,
+    height: 2,
   },
 });
