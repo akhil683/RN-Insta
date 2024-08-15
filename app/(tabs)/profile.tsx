@@ -4,132 +4,216 @@ import {
   StyleSheet,
   TouchableOpacity,
   Pressable,
+  Image,
+  FlatList,
+  ScrollView,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import User from "@/constants/User";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Feather from "@expo/vector-icons/Feather";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import SingleStory from "@/components/SingleStory";
 
 const ProfilePage = () => {
+  const [active, setActive] = useState("posts");
+
   return (
     <SafeAreaView
       style={{ backgroundColor: "black", flex: 1, paddingHorizontal: 12 }}
     >
+      <ScrollView>
+        <View style={styles.navContainer}>
+          <View style={styles.username}>
+            <Text style={styles.usernameText}>{User.username}</Text>
+            <AntDesign name="down" size={16} color="white" />
+          </View>
+          <View style={styles.menuContainer}>
+            <TouchableOpacity>
+              <FontAwesome6 name="threads" size={24} color="white" />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <AntDesign name="plussquareo" size={24} color="white" />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Feather name="menu" size={24} color="white" />
+            </TouchableOpacity>
+          </View>
+        </View>
+        {/* MENU CONTAINER */}
+
+        {/* INFO CONTAINER */}
+        <View style={styles.infoContainer}>
+          <SingleStory size={85} imageUrl={User.avatar_url} />
+          <View style={styles.infoDataContainer}>
+            <View style={styles.dataContainer}>
+              <Text style={{ color: "white", fontWeight: "bold" }}>
+                {User.posts}
+              </Text>
+              <Text style={{ color: "white" }}>posts</Text>
+            </View>
+            <View style={styles.dataContainer}>
+              <Text style={{ color: "white", fontWeight: "bold" }}>
+                {User.followers}
+              </Text>
+              <Text style={{ color: "white" }}>followers</Text>
+            </View>
+            <View style={styles.dataContainer}>
+              <Text style={{ color: "white", fontWeight: "bold" }}>
+                {User.following}
+              </Text>
+              <Text style={{ color: "white" }}>following</Text>
+            </View>
+          </View>
+        </View>
+        {/* INFO CONTAINER */}
+        {/* BIO CONTAINER */}
+        <View style={{ marginHorizontal: 6 }}>
+          <TouchableOpacity style={{ flexDirection: "row" }}>
+            <Text style={styles.threads}>{User.threadName}</Text>
+          </TouchableOpacity>
+          <Text style={styles.bio}>{User.bio}</Text>
+        </View>
+        {/* BIO CONTAINER */}
+
+        {/* EDIT BUTTONS */}
+        <View style={styles.buttonsContainer}>
+          <TouchableOpacity style={styles.buttonText}>
+            <Text style={{ color: "#e5e4db", textAlign: "center" }}>
+              Edit Profile
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonText}>
+            <Text style={{ color: "#e5e4db", textAlign: "center" }}>
+              Share Profile
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.addButton}>
+            <Ionicons name="person-add-outline" size={18} color="#e5e4db" />
+          </TouchableOpacity>
+        </View>
+        {/* EDIT BUTTONS */}
+
+        {/* HIGHLIGHTS */}
+        <View style={styles.highlightContainer}>
+          <SingleStory
+            size={75}
+            active={false}
+            text={"Dream Trip"}
+            imageUrl={User.avatar_url}
+          />
+          <SingleStory
+            size={75}
+            active={false}
+            text={"Mountains"}
+            imageUrl={User.avatar_url}
+          />
+          <TouchableOpacity>
+            <View
+              style={{
+                width: 80,
+                height: 80,
+                borderWidth: 1,
+                borderColor: "white",
+                borderRadius: 100,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Ionicons name="add" size={32} color="white" />
+            </View>
+            <Text style={{ color: "white", fontSize: 12, textAlign: "center" }}>
+              New
+            </Text>
+          </TouchableOpacity>
+        </View>
+        {/* HIGHLIGHTS */}
+        <View style={{ marginVertical: 12 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-around",
+              gap: 16,
+              marginBottom: 6,
+            }}
+          >
+            <Pressable
+              style={[
+                styles.postsNav,
+                { borderColor: active === "posts" ? "white" : "black" },
+              ]}
+              onPress={() => setActive("posts")}
+            >
+              <Ionicons
+                name="grid-outline"
+                size={24}
+                color={active === "posts" ? "white" : "#919191"}
+                style={{
+                  textAlign: "center",
+                  paddingVertical: 6,
+                }}
+              />
+            </Pressable>
+            <Pressable
+              style={[
+                styles.postsNav,
+                { borderColor: active === "videos" ? "white" : "black" },
+              ]}
+              onPress={() => setActive("videos")}
+            >
+              <Ionicons
+                name="videocam-outline"
+                size={24}
+                color={active === "videos" ? "white" : "#919191"}
+                style={{ textAlign: "center" }}
+              />
+            </Pressable>
+            <Pressable
+              style={[
+                styles.postsNav,
+                { borderColor: active === "tags" ? "white" : "black" },
+              ]}
+              onPress={() => setActive("tags")}
+            >
+              <MaterialCommunityIcons
+                name="clipboard-account-outline"
+                size={24}
+                color={active === "tags" ? "white" : "#919191"}
+                style={{ textAlign: "center" }}
+              />
+            </Pressable>
+          </View>
+          <FlatList
+            data={User.postsUrl}
+            numColumns={3}
+            contentContainerStyle={{
+              gap: 4,
+            }}
+            columnWrapperStyle={{
+              gap: 4,
+            }}
+            scrollEnabled={false}
+            renderItem={({ item }) => <UserPosts item={item} />}
+          />
+        </View>
+      </ScrollView>
       {/* MENU CONTAINER */}
-      <View style={styles.navContainer}>
-        <View style={styles.username}>
-          <Text style={styles.usernameText}>{User.username}</Text>
-          <AntDesign name="down" size={16} color="white" />
-        </View>
-        <View style={styles.menuContainer}>
-          <TouchableOpacity>
-            <FontAwesome6 name="threads" size={24} color="white" />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <AntDesign name="plussquareo" size={24} color="white" />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Feather name="menu" size={24} color="white" />
-          </TouchableOpacity>
-        </View>
-      </View>
-      {/* MENU CONTAINER */}
-
-      {/* INFO CONTAINER */}
-      <View style={styles.infoContainer}>
-        <SingleStory size={85} imageUrl={User.avatar_url} />
-        <View style={styles.infoDataContainer}>
-          <View style={styles.dataContainer}>
-            <Text style={{ color: "white", fontWeight: "bold" }}>
-              {User.posts}
-            </Text>
-            <Text style={{ color: "white" }}>posts</Text>
-          </View>
-          <View style={styles.dataContainer}>
-            <Text style={{ color: "white", fontWeight: "bold" }}>
-              {User.followers}
-            </Text>
-            <Text style={{ color: "white" }}>followers</Text>
-          </View>
-          <View style={styles.dataContainer}>
-            <Text style={{ color: "white", fontWeight: "bold" }}>
-              {User.following}
-            </Text>
-            <Text style={{ color: "white" }}>following</Text>
-          </View>
-        </View>
-      </View>
-      {/* INFO CONTAINER */}
-      {/* BIO CONTAINER */}
-      <View style={{ marginHorizontal: 6 }}>
-        <TouchableOpacity style={{ flexDirection: "row" }}>
-          <Text style={styles.threads}>{User.threadName}</Text>
-        </TouchableOpacity>
-        <Text style={styles.bio}>{User.bio}</Text>
-      </View>
-      {/* BIO CONTAINER */}
-
-      {/* EDIT BUTTONS */}
-      <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.buttonText}>
-          <Text style={{ color: "#e5e4db", textAlign: "center" }}>
-            Edit Profile
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonText}>
-          <Text style={{ color: "#e5e4db", textAlign: "center" }}>
-            Share Profile
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.addButton}>
-          <Ionicons name="person-add-outline" size={18} color="#e5e4db" />
-        </TouchableOpacity>
-      </View>
-      {/* EDIT BUTTONS */}
-
-      {/* HIGHLIGHTS */}
-      <View style={styles.highlightContainer}>
-        <SingleStory
-          size={75}
-          active={false}
-          text={"Dream Trip"}
-          imageUrl={User.avatar_url}
-        />
-        <SingleStory
-          size={75}
-          active={false}
-          text={"Mountains"}
-          imageUrl={User.avatar_url}
-        />
-        <TouchableOpacity>
-          <Ionicons name="add-circle-outline" size={80} color="white" />
-          <Text style={{ color: "white", fontSize: 12, textAlign: "center" }}>
-            New
-          </Text>
-        </TouchableOpacity>
-      </View>
-      {/* HIGHLIGHTS */}
-      <View>
-        <View style={{ flexDirection: "row" }}>
-          <Pressable style={styles.postsNav}>
-            <Text style={{ color: "white", textAlign: "center" }}>one</Text>
-          </Pressable>
-          <Pressable style={styles.postsNav}>
-            <Text style={{ color: "white", textAlign: "center" }}>Two</Text>
-          </Pressable>
-          <Pressable style={styles.postsNav}>
-            <Text style={{ color: "white", textAlign: "center" }}>Three</Text>
-          </Pressable>
-        </View>
-      </View>
     </SafeAreaView>
   );
 };
 
+const UserPosts = ({ item }: { item: string }) => {
+  return (
+    <TouchableOpacity style={{ flex: 1, aspectRatio: 1 }}>
+      <Image
+        source={{ uri: item }}
+        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+      />
+    </TouchableOpacity>
+  );
+};
 export default ProfilePage;
 
 const styles = StyleSheet.create({
@@ -221,9 +305,12 @@ const styles = StyleSheet.create({
   highlightContainer: {
     flexDirection: "row",
     gap: 24,
+    marginTop: 8,
     marginBottom: 16,
   },
   postsNav: {
-    flex: 1,
+    paddingHorizontal: 16,
+    borderBottomWidth: 2,
+    borderColor: "white",
   },
 });

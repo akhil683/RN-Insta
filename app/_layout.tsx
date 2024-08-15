@@ -1,5 +1,6 @@
 import React from "react";
 import { Stack } from "expo-router";
+import { Easing } from "react-native-reanimated";
 
 const RootLayout = () => {
   return (
@@ -30,12 +31,14 @@ const RootLayout = () => {
       <Stack.Screen
         name="StoryDetail"
         options={{
+          animation: "fade_from_bottom",
           presentation: "fullScreenModal",
         }}
       />
       <Stack.Screen
         name="Comments"
         options={{
+          animation: "fade_from_bottom",
           presentation: "modal",
         }}
       />

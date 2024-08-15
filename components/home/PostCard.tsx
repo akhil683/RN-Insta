@@ -68,15 +68,7 @@ export const PostCard = ({ item }: { item: PostType }) => {
 
       {/* IMAGE */}
       <View>
-        {/* <TapGestureHandler */}
-        {/*   onHandlerStateChange={({ nativeEvent }) => { */}
-        {/*     if (nativeEvent.state === State.ACTIVE) { */}
-        {/*       handleDoubleTap(); */}
-        {/*     } */}
-        {/*   }} */}
-        {/*   numberOfTaps={2} */}
-        {/* > */}
-        <TouchableOpacity activeOpacity={1} onPress={handleDoubleTap}>
+        <View>
           <ImageContainer
             items={item}
             onViewableItemsChanged={onViewableItemsChanged}
@@ -100,7 +92,7 @@ export const PostCard = ({ item }: { item: PostType }) => {
               </Text>
             </View>
           )}
-        </TouchableOpacity>
+        </View>
         {/* </TapGestureHandler> */}
       </View>
       {/* IMAGE */}
