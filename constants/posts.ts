@@ -72,7 +72,7 @@ const Posts: PostType[] = [
     id: "4",
     images: [],
     video:
-      "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     caption: "Morning coffee vibes.",
     user: {
       id: "u4",
