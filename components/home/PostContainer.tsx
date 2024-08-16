@@ -5,19 +5,27 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { useRef, useState } from "react";
 
 const PostContainer = () => {
-  const [visibleVideoIndex, setVisibleVideoIndex] = useState(null);
-  const viewabilityConfig = { itemVisiblePercentThreshold: 50 };
+  const [visibleVideoIndex, setVisibleVideoIndex] = useState<number | null>(
+    null,
+  );
 
-  const onViewableItemsChanged = useRef((item: any) => {
-    console.log("Hello");
-    // const index = item.viewableItem[0].index;
-    // setVisibleVideoIndex(index);
-  }).current;
+  const onViewableItemsChanged = useRef(({ viewableItems }: any) => {
+    const index = viewableItems[0].index;
+    setVisibleVideoIndex(index);
+  });
 
   return (
     <>
       <FlatList
         data={Posts}
+        keyExtractor={(item) => item.id.toString()}
+        scrollEnabled={false}
+        pagingEnabled
+        onViewableItemsChanged={onViewableItemsChanged.current}
+        viewabilityConfig={{ itemVisiblePercentThreshold: 50 }}
+        contentContainerStyle={{
+          gap: 16,
+        }}
         renderItem={({ item, index }) => (
           <PostCard
             item={item}
@@ -25,15 +33,6 @@ const PostContainer = () => {
             visibleVideoIndex={visibleVideoIndex}
           />
         )}
-        keyExtractor={(item) => item.id.toString()}
-        initialNumToRender={10}
-        maxToRenderPerBatch={10}
-        scrollEnabled={false}
-        contentContainerStyle={{
-          gap: 16,
-        }}
-        onViewableItemsChanged={onViewableItemsChanged}
-        viewabilityConfig={viewabilityConfig}
       />
       <View
         style={{

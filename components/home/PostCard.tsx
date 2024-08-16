@@ -33,9 +33,11 @@ export const PostCard = ({
     const index = item.viewableItems[0].index;
     setCurrentSlideIndex(index);
   });
+
   const viewabilityConfig = useRef({
     itemVisiblePercentThreshold: 50,
   });
+  const pause = index == visibleVideoIndex;
 
   return (
     <View>
@@ -78,6 +80,7 @@ export const PostCard = ({
             <VideoContainer
               items={item}
               index={index}
+              pause={pause}
               visibleVideoIndex={visibleVideoIndex}
             />
           )}

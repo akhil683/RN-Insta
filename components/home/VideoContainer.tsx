@@ -1,8 +1,8 @@
 import { PostType } from "@/constants/posts";
 import { Ionicons } from "@expo/vector-icons";
-import { Video, ResizeMode } from "expo-av";
+import { Video, ResizeMode, AVPlaybackStatus } from "expo-av";
 import Entypo from "@expo/vector-icons/Entypo";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   useWindowDimensions,
   Pressable,
@@ -16,14 +16,43 @@ import {
 const VideoContainer = ({
   items,
   index,
+  pause,
   visibleVideoIndex,
 }: {
   items: PostType;
   index: number;
+  pause: boolean;
   visibleVideoIndex: number | null;
 }) => {
+  const [status, setStatus] = useState<AVPlaybackStatus>();
+  const isPlaying = status?.isLoaded && status.isPlaying;
+
   const { width } = useWindowDimensions();
   const [mute, setMute] = useState(true);
+  const video = useRef<Video>(null);
+
+  useEffect(() => {
+    if (!video.current) return;
+    if (index !== visibleVideoIndex) {
+      video.current.pauseAsync();
+    }
+    if (index === visibleVideoIndex) {
+      video.current.playAsync();
+    }
+  }, [visibleVideoIndex]);
+
+  const playHandler = () => {
+    if (!video.current) {
+      return;
+    }
+    if (isPlaying) {
+      video.current.pauseAsync();
+    } else {
+      video.current.playAsync();
+    }
+  };
+
+  console.log(index + " " + visibleVideoIndex + "hi");
 
   return (
     <View>
@@ -62,24 +91,50 @@ const VideoContainer = ({
       </View>
 
       <Pressable
-        onPress={() => setMute(!mute)}
+        onPress={playHandler}
         style={(styles.VideoContainer, { width: width, aspectRatio: 3 / 5 })}
       >
         {}
         <Video
+          ref={video}
           source={{
             uri: items.video,
           }}
           volume={1.0}
           isMuted={mute}
-          shouldPlay
+          shouldPlay={pause}
           resizeMode={ResizeMode.COVER}
+          onPlaybackStatusUpdate={setStatus}
+          isLooping
           style={{
             width: "100%",
             height: "100%",
           }}
         />
-        <View
+        {!isPlaying && (
+          <View
+            style={{
+              width: "100%",
+              height: "100%",
+              position: "absolute",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Ionicons
+              name="play"
+              size={54}
+              color="rgba(255,255,255,0.7)"
+              style={{
+                alignSelf: "center",
+              }}
+            />
+          </View>
+        )}
+        <Pressable
+          onPress={() => setMute(!mute)}
+          onPressOut={(e) => e.stopPropagation()}
+          hitSlop={20}
           style={{
             padding: 4,
             backgroundColor: "rgba(0,0,0,0.5)",
@@ -94,7 +149,7 @@ const VideoContainer = ({
           ) : (
             <Ionicons name="volume-high-outline" size={20} color="white" />
           )}
-        </View>
+        </Pressable>
       </Pressable>
     </View>
   );
