@@ -16,7 +16,6 @@ import {
 } from "react-native";
 import { ResizeMode, Video } from "expo-av";
 import { router } from "expo-router";
-import { useScrollToTop } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
 export const PostCard = ({
@@ -30,12 +29,6 @@ export const PostCard = ({
 }) => {
   const [activeLike, setActiveLike] = useState(false);
   const [activeBookmark, setActiveBookmark] = useState(false);
-  // const doubleTap = Gesture.Tap()
-  //   .numberOfTaps(2)
-  //   .onEnd(() => {
-  //     setActiveLike(true);
-  //   });
-
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
   const onViewableItemsChanged = useRef((item: any) => {
@@ -45,9 +38,6 @@ export const PostCard = ({
   const viewabilityConfig = useRef({
     itemVisiblePercentThreshold: 50,
   });
-  // const handleDoubleTap = () => {
-  //   setActiveLike(true);
-  // };
 
   return (
     <View>
@@ -122,7 +112,7 @@ export const PostCard = ({
               <FontAwesome name="heart-o" size={24} color="white" />
             )}
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => router.push("/Comments")}>
             <FontAwesome6 name="comment" size={24} color="white" />
           </TouchableOpacity>
           <TouchableOpacity>

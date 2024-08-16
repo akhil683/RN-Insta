@@ -6,13 +6,14 @@ import { useRef, useState } from "react";
 
 const PostContainer = () => {
   const [visibleVideoIndex, setVisibleVideoIndex] = useState(null);
-  const viewabilityConfig = { itemVisiblePercentThreshold: 50 }; // Adjust visibility threshold
+  const viewabilityConfig = { itemVisiblePercentThreshold: 50 };
 
   const onViewableItemsChanged = useRef((item: any) => {
-    console.log(item);
-    const index = item.viewableItem[0].index;
-    setVisibleVideoIndex(index);
+    console.log("Hello");
+    // const index = item.viewableItem[0].index;
+    // setVisibleVideoIndex(index);
   }).current;
+
   return (
     <>
       <FlatList

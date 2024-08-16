@@ -1,6 +1,5 @@
 import React from "react";
 import { Stack } from "expo-router";
-import { Easing } from "react-native-reanimated";
 
 const RootLayout = () => {
   return (
