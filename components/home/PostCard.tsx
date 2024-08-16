@@ -12,11 +12,9 @@ import {
   StyleSheet,
   FlatList,
   useWindowDimensions,
-  Pressable,
 } from "react-native";
-import { ResizeMode, Video } from "expo-av";
+import VideoContainer from "./VideoContainer";
 import { router } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
 
 export const PostCard = ({
   item,
@@ -42,36 +40,40 @@ export const PostCard = ({
   return (
     <View>
       {/* USER */}
-      <View style={styles.userContainer}>
-        <TouchableOpacity style={styles.userBox}>
-          <Image
-            source={{
-              uri: item.user.avatar_url,
-            }}
-            width={32}
-            height={32}
-            style={{
-              borderRadius: 100,
-              resizeMode: "cover",
-            }}
-          />
-          <Text style={{ color: "white" }}>{item.user.username}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Entypo name="dots-three-vertical" size={18} color="white" />
-        </TouchableOpacity>
-      </View>
+      {item.images.length > 0 && (
+        <View style={styles.userContainer}>
+          <TouchableOpacity style={styles.userBox}>
+            <Image
+              source={{
+                uri: item.user.avatar_url,
+              }}
+              width={32}
+              height={32}
+              style={{
+                borderRadius: 100,
+                resizeMode: "cover",
+              }}
+            />
+            <Text style={{ color: "white" }}>{item.user.username}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Entypo name="dots-three-vertical" size={18} color="white" />
+          </TouchableOpacity>
+        </View>
+      )}
       {/* USER */}
 
       {/* IMAGE */}
       <View>
         <View>
           {item.images.length > 0 ? (
-            <ImageContainer
-              items={item}
-              onViewableItemsChanged={onViewableItemsChanged}
-              viewabilityConfig={viewabilityConfig}
-            />
+            <>
+              <ImageContainer
+                items={item}
+                onViewableItemsChanged={onViewableItemsChanged}
+                viewabilityConfig={viewabilityConfig}
+              />
+            </>
           ) : (
             <VideoContainer
               items={item}
@@ -187,56 +189,6 @@ const ImageContainer = ({
   );
 };
 
-const VideoContainer = ({
-  items,
-  index,
-  visibleVideoIndex,
-}: {
-  items: PostType;
-  index: number;
-  visibleVideoIndex: number | null;
-}) => {
-  const { width } = useWindowDimensions();
-  const [mute, setMute] = useState(true);
-
-  return (
-    <Pressable
-      onPress={() => setMute(!mute)}
-      style={(styles.ImageContainer, { width: width, aspectRatio: 3 / 2 })}
-    >
-      {}
-      <Video
-        source={{
-          uri: items.video,
-        }}
-        volume={1.0}
-        isMuted={mute}
-        shouldPlay
-        resizeMode={ResizeMode.COVER}
-        style={{
-          width: "100%",
-          height: "100%",
-        }}
-      />
-      <View
-        style={{
-          padding: 4,
-          backgroundColor: "black",
-          position: "absolute",
-          bottom: 12,
-          right: 12,
-          borderRadius: 100,
-        }}
-      >
-        {mute ? (
-          <Ionicons name="volume-mute" size={20} color="white" />
-        ) : (
-          <Ionicons name="volume-high-outline" size={20} color="white" />
-        )}
-      </View>
-    </Pressable>
-  );
-};
 const styles = StyleSheet.create({
   ImageContainer: {
     backgroundColor: "white",
