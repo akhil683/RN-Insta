@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { PostType } from "@/constants/posts";
 import Entypo from "@expo/vector-icons/Entypo";
 import Feather from "@expo/vector-icons/Feather";
@@ -10,20 +10,23 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  FlatList,
+  Modal,
   useWindowDimensions,
 } from "react-native";
 import VideoContainer from "./VideoContainer";
 import { router } from "expo-router";
+import ImageContainer from "./ImageContainer";
 
 export const PostCard = ({
   item,
   index,
   visibleVideoIndex,
+  handleModal,
 }: {
   item: PostType;
   index: number;
   visibleVideoIndex: number | null;
+  handleModal: () => void;
 }) => {
   const [activeLike, setActiveLike] = useState(false);
   const [activeBookmark, setActiveBookmark] = useState(false);
@@ -58,13 +61,12 @@ export const PostCard = ({
             />
             <Text style={{ color: "white" }}>{item.user.username}</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleModal}>
             <Entypo name="dots-three-vertical" size={18} color="white" />
           </TouchableOpacity>
         </View>
       )}
       {/* USER */}
-
       {/* IMAGE */}
       <View>
         <View>
@@ -106,7 +108,6 @@ export const PostCard = ({
         {/* </TapGestureHandler> */}
       </View>
       {/* IMAGE */}
-
       {/* Comment Section */}
       <View style={styles.iconContainer}>
         <View style={styles.likeBox}>
@@ -151,44 +152,6 @@ export const PostCard = ({
       {/* Comment Section */}
     </View>
     // </GestureHandlerRootView>
-  );
-};
-
-const ImageContainer = ({
-  items,
-  onViewableItemsChanged,
-  viewabilityConfig,
-}: {
-  items: PostType;
-  onViewableItemsChanged: MutableRefObject<(item: any) => void>;
-  viewabilityConfig: MutableRefObject<{ itemVisiblePercentThreshold: number }>;
-}) => {
-  const { width } = useWindowDimensions();
-  return (
-    <FlatList
-      data={items.images}
-      horizontal
-      pagingEnabled
-      showsHorizontalScrollIndicator={false}
-      keyExtractor={(item) => item}
-      onViewableItemsChanged={onViewableItemsChanged.current}
-      viewabilityConfig={viewabilityConfig.current}
-      renderItem={({ item }: { item: string }) => (
-        <View style={(styles.ImageContainer, { width: width, aspectRatio: 1 })}>
-          {}
-          <Image
-            source={{
-              uri: item,
-            }}
-            style={{
-              width: "100%",
-              height: "100%",
-              resizeMode: "cover",
-            }}
-          />
-        </View>
-      )}
-    />
   );
 };
 

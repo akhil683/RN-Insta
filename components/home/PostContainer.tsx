@@ -1,18 +1,26 @@
-import { View, FlatList, Text } from "react-native";
+import { View, FlatList, Text, Modal } from "react-native";
 import Posts from "@/constants/posts";
 import { PostCard } from "./PostCard";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useRef, useState } from "react";
 
-const PostContainer = () => {
+const PostContainer = ({
+  handleOpenPress,
+}: {
+  handleOpenPress: () => void;
+}) => {
   const [visibleVideoIndex, setVisibleVideoIndex] = useState<number | null>(
     null,
   );
-
   const onViewableItemsChanged = useRef(({ viewableItems }: any) => {
     const index = viewableItems[0].index;
     setVisibleVideoIndex(index);
   });
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const handleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
 
   return (
     <>
@@ -31,6 +39,7 @@ const PostContainer = () => {
             item={item}
             index={index}
             visibleVideoIndex={visibleVideoIndex}
+            handleModal={handleOpenPress}
           />
         )}
       />

@@ -1,21 +1,48 @@
-import { View, Image, ScrollView, TouchableOpacity } from "react-native";
-import React from "react";
+import {
+  View,
+  Image,
+  Text,
+  ScrollView,
+  Button,
+  TouchableOpacity,
+} from "react-native";
+import React, { useRef, useCallback } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Feather from "@expo/vector-icons/Feather";
 import { Link } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Story from "@/components/home/Story";
 import PostContainer from "@/components/home/PostContainer";
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetBackdropProps,
+} from "@gorhom/bottom-sheet";
+import BottomModal from "@/components/BottomModal";
 
 const HomePage = () => {
+  const bottomSheetRef = useRef<BottomSheet>(null);
+
+  const handleOpenPress = () => {
+    bottomSheetRef.current?.expand();
+  };
+
   return (
     <View style={{ backgroundColor: "black", flex: 1 }}>
       <SafeAreaView>
         <ScrollView>
           <HomeNav />
           <Story />
-          <PostContainer />
+          <PostContainer handleOpenPress={handleOpenPress} />
         </ScrollView>
+        <BottomSheet
+          enablePanDownToClose={true}
+          ref={bottomSheetRef}
+          handleIndicatorStyle={{ backgroundColor: "gray" }}
+          backgroundStyle={{ backgroundColor: "#111" }}
+          snapPoints={["60%"]}
+        >
+          <BottomModal />
+        </BottomSheet>
       </SafeAreaView>
     </View>
   );

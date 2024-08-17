@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import React from "react";
 import { Stack } from "expo-router";
 
@@ -9,6 +10,12 @@ const RootLayout = () => {
         statusBarColor: "black",
       }}
     >
+      <Stack.Screen
+        name="(tabs)"
+        options={{
+          presentation: "fullScreenModal",
+        }}
+      />
       <Stack.Screen
         name="index"
         options={{
