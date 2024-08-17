@@ -9,16 +9,16 @@ export default function TabLayout() {
     <GestureHandlerRootView>
       <Tabs
         screenOptions={{
-          tabBarStyle: {
-            borderTopWidth: 0,
-          },
           tabBarInactiveBackgroundColor: "#020617",
-          lazy: true,
           tabBarActiveBackgroundColor: "#020617",
           tabBarActiveTintColor: "white",
           tabBarInactiveTintColor: "#999",
           headerShown: false,
           tabBarShowLabel: false,
+          lazy: true,
+          tabBarStyle: {
+            borderTopWidth: 0,
+          },
         }}
       >
         <Tabs.Screen

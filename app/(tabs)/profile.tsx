@@ -21,9 +21,7 @@ const ProfilePage = () => {
   const [active, setActive] = useState("posts");
 
   return (
-    <SafeAreaView
-      style={{ backgroundColor: "black", flex: 1, paddingHorizontal: 12 }}
-    >
+    <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.navContainer}>
           <View style={styles.username}>
@@ -49,21 +47,15 @@ const ProfilePage = () => {
           <SingleStory size={85} imageUrl={User.avatar_url} />
           <View style={styles.infoDataContainer}>
             <View style={styles.dataContainer}>
-              <Text style={{ color: "white", fontWeight: "bold" }}>
-                {User.posts}
-              </Text>
+              <Text style={styles.infoValueText}>{User.posts}</Text>
               <Text style={{ color: "white" }}>posts</Text>
             </View>
             <View style={styles.dataContainer}>
-              <Text style={{ color: "white", fontWeight: "bold" }}>
-                {User.followers}
-              </Text>
+              <Text style={styles.infoValueText}>{User.followers}</Text>
               <Text style={{ color: "white" }}>followers</Text>
             </View>
             <View style={styles.dataContainer}>
-              <Text style={{ color: "white", fontWeight: "bold" }}>
-                {User.following}
-              </Text>
+              <Text style={styles.infoValueText}>{User.following}</Text>
               <Text style={{ color: "white" }}>following</Text>
             </View>
           </View>
@@ -130,6 +122,8 @@ const ProfilePage = () => {
           </TouchableOpacity>
         </View>
         {/* HIGHLIGHTS */}
+
+        {/* POSTS */}
         <View style={{ marginVertical: 12 }}>
           <View
             style={{
@@ -199,6 +193,7 @@ const ProfilePage = () => {
           />
         </View>
       </ScrollView>
+      {/* POSTS */}
       {/* MENU CONTAINER */}
     </SafeAreaView>
   );
@@ -214,9 +209,15 @@ const UserPosts = ({ item }: { item: string }) => {
     </TouchableOpacity>
   );
 };
+
 export default ProfilePage;
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "black",
+    flex: 1,
+    paddingHorizontal: 12,
+  },
   navContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -259,6 +260,11 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     justifyContent: "center",
     alignItems: "center",
+  },
+  infoValueText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
   },
   userImage: {
     position: "absolute",

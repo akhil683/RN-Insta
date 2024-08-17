@@ -23,18 +23,6 @@ const RootLayout = () => {
         }}
       />
       <Stack.Screen
-        name="messages"
-        options={{
-          presentation: "fullScreenModal",
-        }}
-      />
-      <Stack.Screen
-        name="Notifications"
-        options={{
-          presentation: "fullScreenModal",
-        }}
-      />
-      <Stack.Screen
         name="StoryDetail"
         options={{
           animation: "fade_from_bottom",
@@ -45,7 +33,7 @@ const RootLayout = () => {
         name="Comments"
         options={{
           animation: "fade_from_bottom",
-          presentation: "modal",
+          presentation: "fullScreenModal",
         }}
       />
     </Stack>

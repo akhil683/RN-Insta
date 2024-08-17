@@ -37,7 +37,7 @@ const Messages = () => {
           placeholder="Ask Meta AI or Search"
           placeholderTextColor={"#999"}
         />
-        <View style={{ marginHorizontal: 12, marginVertical: 28 }}>
+        <View style={{ marginHorizontal: 12, marginTop: 28 }}>
           <FlatList
             data={messages}
             horizontal
@@ -54,17 +54,11 @@ const Messages = () => {
             )}
           />
         </View>
-        <View style={{ paddingHorizontal: 12 }}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginBottom: 20,
-            }}
-          >
-            <Text style={{ color: "white", fontSize: 18 }}>Messages</Text>
+        <View style={{ paddingHorizontal: 12, marginVertical: 28 }}>
+          <View style={styles.messagesHeader}>
+            <Text style={styles.messagesHeaderText}>Messages</Text>
             <TouchableOpacity>
-              <Text style={{ color: "white", fontSize: 18 }}>Requests</Text>
+              <Text style={styles.messagesHeaderText}>Requests</Text>
             </TouchableOpacity>
           </View>
           <FlatList
@@ -80,16 +74,11 @@ const Messages = () => {
     </SafeAreaView>
   );
 };
+
 export const SingleMessage = ({ item }: { item: MessageType }) => {
   return (
-    <TouchableOpacity
-      style={{
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <View style={{ flexDirection: "row", gap: 12, alignItems: "center" }}>
+    <TouchableOpacity style={styles.chatContainer}>
+      <View style={styles.chatImageContainer}>
         <Image
           source={{ uri: item.image_url }}
           style={{ backgroundColor: "red", borderRadius: 100 }}
@@ -125,6 +114,15 @@ const styles = StyleSheet.create({
     marginVertical: 16,
     paddingHorizontal: 16,
   },
+  messagesHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 20,
+  },
+  messagesHeaderText: {
+    color: "white",
+    fontSize: 16,
+  },
   username: {
     flexDirection: "row",
     alignItems: "center",
@@ -145,5 +143,15 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     marginTop: 12,
     fontSize: 16,
+  },
+  chatContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  chatImageContainer: {
+    flexDirection: "row",
+    gap: 12,
+    alignItems: "center",
   },
 });

@@ -4,15 +4,7 @@ import Entypo from "@expo/vector-icons/Entypo";
 import Feather from "@expo/vector-icons/Feather";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import {
-  View,
-  Image,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Modal,
-  useWindowDimensions,
-} from "react-native";
+import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
 import VideoContainer from "./VideoContainer";
 import { router } from "expo-router";
 import ImageContainer from "./ImageContainer";
@@ -110,6 +102,30 @@ export const PostCard = ({
       {/* IMAGE */}
       {/* Comment Section */}
       <View style={styles.iconContainer}>
+        <View
+          style={{
+            position: "absolute",
+            left: "50%",
+            flexDirection: "row",
+            gap: 4,
+          }}
+        >
+          {item.images.length > 1 &&
+            item.images.map((_, index) => {
+              const color = currentSlideIndex === index ? "#00BFFF" : "gray";
+              return (
+                <View
+                  key={index}
+                  style={{
+                    width: 5,
+                    height: 5,
+                    borderRadius: 100,
+                    backgroundColor: color,
+                  }}
+                />
+              );
+            })}
+        </View>
         <View style={styles.likeBox}>
           <TouchableOpacity onPress={() => setActiveLike(!activeLike)}>
             {activeLike ? (
