@@ -1,3 +1,4 @@
+import { useTheme } from "@/utils/ThemeContext";
 import { router } from "expo-router";
 import { TouchableOpacity, View, Image, Text } from "react-native";
 
@@ -8,7 +9,9 @@ interface StoryType {
   text?: string;
 }
 const SingleStory = ({ active = true, imageUrl, size, text }: StoryType) => {
-  const color = active ? "#E3256B" : "#222";
+  const { theme } = useTheme();
+  const { background, accent } = theme.colors;
+  const color = active ? "#E3256B" : accent;
   return (
     <TouchableOpacity onPress={() => router.push("/StoryDetail")}>
       <View
@@ -33,12 +36,12 @@ const SingleStory = ({ active = true, imageUrl, size, text }: StoryType) => {
             borderRadius: 100,
             objectFit: "cover",
             borderWidth: 3,
-            borderColor: "black",
+            borderColor: background,
           }}
         />
       </View>
       {text && (
-        <Text style={{ color: "white", fontSize: 12, textAlign: "center" }}>
+        <Text style={{ color: text, fontSize: 12, textAlign: "center" }}>
           {text}
         </Text>
       )}

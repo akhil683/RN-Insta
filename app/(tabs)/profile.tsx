@@ -16,27 +16,34 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Feather from "@expo/vector-icons/Feather";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import SingleStory from "@/components/SingleStory";
+import { router } from "expo-router";
+import { useTheme } from "@/utils/ThemeContext";
 
 const ProfilePage = () => {
   const [active, setActive] = useState("posts");
-
+  const { theme } = useTheme();
+  const { background, accent, accentText, text } = theme.colors;
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
+    <SafeAreaView style={[styles.container, { backgroundColor: background }]}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.navContainer}>
           <View style={styles.username}>
-            <Text style={styles.usernameText}>{User.username}</Text>
-            <AntDesign name="down" size={16} color="white" />
+            <Text style={[styles.usernameText, { color: text }]}>
+              {User.username}
+            </Text>
+            <AntDesign name="down" size={16} color={text} />
           </View>
           <View style={styles.menuContainer}>
             <TouchableOpacity>
-              <FontAwesome6 name="threads" size={24} color="white" />
+              <FontAwesome6 name="threads" size={24} color={text} />
             </TouchableOpacity>
             <TouchableOpacity>
-              <AntDesign name="plussquareo" size={24} color="white" />
+              <AntDesign name="plussquareo" size={24} color={text} />
             </TouchableOpacity>
-            <TouchableOpacity>
-              <Feather name="menu" size={24} color="white" />
+            <TouchableOpacity
+              onPress={() => router.push("/(screens)/settings")}
+            >
+              <Feather name="menu" size={24} color={text} />
             </TouchableOpacity>
           </View>
         </View>
@@ -47,16 +54,22 @@ const ProfilePage = () => {
           <SingleStory size={85} imageUrl={User.avatar_url} />
           <View style={styles.infoDataContainer}>
             <View style={styles.dataContainer}>
-              <Text style={styles.infoValueText}>{User.posts}</Text>
-              <Text style={{ color: "white" }}>posts</Text>
+              <Text style={[styles.infoValueText, { color: text }]}>
+                {User.posts}
+              </Text>
+              <Text style={{ color: text }}>posts</Text>
             </View>
             <View style={styles.dataContainer}>
-              <Text style={styles.infoValueText}>{User.followers}</Text>
-              <Text style={{ color: "white" }}>followers</Text>
+              <Text style={[styles.infoValueText, { color: text }]}>
+                {User.followers}
+              </Text>
+              <Text style={{ color: text }}>followers</Text>
             </View>
             <View style={styles.dataContainer}>
-              <Text style={styles.infoValueText}>{User.following}</Text>
-              <Text style={{ color: "white" }}>following</Text>
+              <Text style={[styles.infoValueText, { color: text }]}>
+                {User.following}
+              </Text>
+              <Text style={{ color: text }}>following</Text>
             </View>
           </View>
         </View>
@@ -64,9 +77,16 @@ const ProfilePage = () => {
         {/* BIO CONTAINER */}
         <View style={{ marginHorizontal: 6 }}>
           <TouchableOpacity style={{ flexDirection: "row" }}>
-            <Text style={styles.threads}>{User.threadName}</Text>
+            <Text
+              style={[
+                styles.threads,
+                { backgroundColor: accent, color: accentText },
+              ]}
+            >
+              {User.threadName}
+            </Text>
           </TouchableOpacity>
-          <Text style={styles.bio}>{User.bio}</Text>
+          <Text style={[styles.bio, { color: text }]}>{User.bio}</Text>
         </View>
         {/* BIO CONTAINER */}
 
@@ -108,15 +128,15 @@ const ProfilePage = () => {
                 width: 80,
                 height: 80,
                 borderWidth: 1,
-                borderColor: "white",
+                borderColor: text,
                 borderRadius: 100,
                 justifyContent: "center",
                 alignItems: "center",
               }}
             >
-              <Ionicons name="add" size={32} color="white" />
+              <Ionicons name="add" size={32} color={text} />
             </View>
-            <Text style={{ color: "white", fontSize: 12, textAlign: "center" }}>
+            <Text style={{ color: text, fontSize: 12, textAlign: "center" }}>
               New
             </Text>
           </TouchableOpacity>
@@ -136,14 +156,14 @@ const ProfilePage = () => {
             <Pressable
               style={[
                 styles.postsNav,
-                { borderColor: active === "posts" ? "white" : "black" },
+                { borderColor: active === "posts" ? text : accentText },
               ]}
               onPress={() => setActive("posts")}
             >
               <Ionicons
                 name="grid-outline"
                 size={24}
-                color={active === "posts" ? "white" : "#919191"}
+                color={active === "posts" ? text : accentText}
                 style={{
                   textAlign: "center",
                   paddingVertical: 6,
@@ -153,28 +173,28 @@ const ProfilePage = () => {
             <Pressable
               style={[
                 styles.postsNav,
-                { borderColor: active === "videos" ? "white" : "black" },
+                { borderColor: active === "videos" ? text : accentText },
               ]}
               onPress={() => setActive("videos")}
             >
               <Ionicons
                 name="videocam-outline"
                 size={24}
-                color={active === "videos" ? "white" : "#919191"}
+                color={active === "videos" ? text : accentText}
                 style={{ textAlign: "center" }}
               />
             </Pressable>
             <Pressable
               style={[
                 styles.postsNav,
-                { borderColor: active === "tags" ? "white" : "black" },
+                { borderColor: active === "tags" ? text : accentText },
               ]}
               onPress={() => setActive("tags")}
             >
               <MaterialCommunityIcons
                 name="clipboard-account-outline"
                 size={24}
-                color={active === "tags" ? "white" : "#919191"}
+                color={active === "tags" ? text : accentText}
                 style={{ textAlign: "center" }}
               />
             </Pressable>
@@ -214,7 +234,6 @@ export default ProfilePage;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "black",
     flex: 1,
     paddingHorizontal: 12,
   },
@@ -229,7 +248,6 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   usernameText: {
-    color: "white",
     fontSize: 20,
     fontWeight: "bold",
   },
@@ -262,7 +280,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   infoValueText: {
-    color: "white",
     fontSize: 16,
     fontWeight: "bold",
   },
@@ -273,7 +290,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     objectFit: "cover",
     borderWidth: 3,
-    borderColor: "black",
   },
   dataContainer: {
     alignItems: "center",

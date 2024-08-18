@@ -21,6 +21,12 @@ const FeatureLayout = () => {
           presentation: "fullScreenModal",
         }}
       />
+      <Stack.Screen
+        name="settings"
+        options={{
+          presentation: "fullScreenModal",
+        }}
+      />
     </Stack>
   );
 };

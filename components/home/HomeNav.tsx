@@ -1,8 +1,12 @@
+import { useTheme } from "@/utils/ThemeContext";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import { Link } from "expo-router";
 import { View, TouchableOpacity, Image } from "react-native";
 
 const HomeNav = () => {
+  const { theme } = useTheme();
+  const { background, text, accent, accentText } = theme.colors;
+
   return (
     <View
       style={{
@@ -27,7 +31,7 @@ const HomeNav = () => {
             width: 120,
           }}
         />
-        <AntDesign name="down" size={16} color="white" />
+        <AntDesign name="down" size={16} color={text} />
       </TouchableOpacity>
       <View
         style={{
@@ -37,10 +41,10 @@ const HomeNav = () => {
         }}
       >
         <Link href={"/Notifications"}>
-          <Feather name="heart" size={24} color="white" />
+          <Feather name="heart" size={24} color={text} />
         </Link>
         <Link href={"/messages"}>
-          <AntDesign name="message1" size={24} color="white" />
+          <AntDesign name="message1" size={24} color={text} />
         </Link>
       </View>
     </View>

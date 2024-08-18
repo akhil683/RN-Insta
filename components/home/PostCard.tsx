@@ -8,6 +8,7 @@ import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
 import VideoContainer from "./VideoContainer";
 import { router } from "expo-router";
 import ImageContainer from "./ImageContainer";
+import { useTheme } from "@/utils/ThemeContext";
 
 export const PostCard = ({
   item,
@@ -23,6 +24,8 @@ export const PostCard = ({
   const [activeLike, setActiveLike] = useState(false);
   const [activeBookmark, setActiveBookmark] = useState(false);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const { theme } = useTheme();
+  const { background, text, accent, accentText } = theme.colors;
 
   const onViewableItemsChanged = useRef((item: any) => {
     const index = item.viewableItems[0].index;
@@ -51,10 +54,10 @@ export const PostCard = ({
                 resizeMode: "cover",
               }}
             />
-            <Text style={{ color: "white" }}>{item.user.username}</Text>
+            <Text style={{ color: text }}>{item.user.username}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={handleModal}>
-            <Entypo name="dots-three-vertical" size={18} color="white" />
+            <Entypo name="dots-three-vertical" size={18} color={text} />
           </TouchableOpacity>
         </View>
       )}
@@ -88,10 +91,10 @@ export const PostCard = ({
                 paddingHorizontal: 12,
                 paddingVertical: 6,
                 borderRadius: 16,
-                backgroundColor: "black",
+                backgroundColor: background,
               }}
             >
-              <Text style={{ color: "white", fontSize: 12 }}>
+              <Text style={{ color: text, fontSize: 12 }}>
                 {currentSlideIndex + 1}/{item.images.length}
               </Text>
             </View>
@@ -131,27 +134,27 @@ export const PostCard = ({
             {activeLike ? (
               <FontAwesome name="heart" size={24} color="red" />
             ) : (
-              <FontAwesome name="heart-o" size={24} color="white" />
+              <FontAwesome name="heart-o" size={24} color={text} />
             )}
           </TouchableOpacity>
           <TouchableOpacity onPress={() => router.push("/Comments")}>
-            <FontAwesome6 name="comment" size={24} color="white" />
+            <FontAwesome6 name="comment" size={24} color={text} />
           </TouchableOpacity>
           <TouchableOpacity>
-            <Feather name="send" size={24} color="white" />
+            <Feather name="send" size={24} color={text} />
           </TouchableOpacity>
         </View>
         <TouchableOpacity onPress={() => setActiveBookmark(!activeBookmark)}>
           {activeBookmark ? (
-            <FontAwesome name="bookmark" size={24} color="white" />
+            <FontAwesome name="bookmark" size={24} color={text} />
           ) : (
-            <FontAwesome name="bookmark-o" size={24} color="white" />
+            <FontAwesome name="bookmark-o" size={24} color={text} />
           )}
         </TouchableOpacity>
       </View>
       <View style={styles.captionContainer}>
-        <Text style={{ color: "white" }}>{item.likes} likes</Text>
-        <Text style={{ color: "white" }}>
+        <Text style={{ color: text }}>{item.likes} likes</Text>
+        <Text style={{ color: text }}>
           <Text style={{ fontWeight: "bold" }}>{item.user.username}</Text>{" "}
           {item.caption}
         </Text>

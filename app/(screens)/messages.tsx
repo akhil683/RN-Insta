@@ -15,32 +15,68 @@ import User from "@/constants/User";
 import messages, { MessageType } from "@/constants/Messsages";
 import { router } from "expo-router";
 import SingleStory from "@/components/SingleStory";
+import { useTheme } from "@/utils/ThemeContext";
 
 const Messages = () => {
+  const { theme } = useTheme();
+  const { background, text, accentText, accent } = theme.colors;
+
+  const SingleMessage = ({ item }: { item: MessageType }) => {
+    return (
+      <TouchableOpacity style={styles.chatContainer}>
+        <View style={styles.chatImageContainer}>
+          <Image
+            source={{ uri: item.image_url }}
+            style={{ backgroundColor: text, borderRadius: 100 }}
+            width={50}
+            height={50}
+          />
+          <View>
+            <Text style={{ color: text, fontSize: 16 }}>{item.name}</Text>
+            <Text style={{ color: accentText }}>
+              {item.message.length <= 35
+                ? item.message
+                : `${item.message.slice(0, 35)}...`}
+            </Text>
+          </View>
+        </View>
+        <TouchableOpacity>
+          <Feather name="camera" size={24} color="gray" />
+        </TouchableOpacity>
+      </TouchableOpacity>
+    );
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: background }]}>
       <View style={styles.navContainer}>
         <View style={styles.username}>
           <TouchableOpacity onPress={() => router.back()}>
-            <Ionicons name="arrow-back" size={28} color="white" />
+            <Ionicons name="arrow-back" size={28} color={text} />
           </TouchableOpacity>
-          <Text style={styles.usernameText}>{User.username}</Text>
-          <AntDesign name="down" size={16} color="white" />
+          <Text style={[styles.usernameText, { color: text }]}>
+            {User.username}
+          </Text>
+          <AntDesign name="down" size={16} color={text} />
         </View>
         <TouchableOpacity>
-          <Feather name="edit" size={24} color="white" />
+          <Feather name="edit" size={24} color={text} />
         </TouchableOpacity>
       </View>
       <ScrollView>
         <TextInput
-          style={styles.TextInput}
+          style={[
+            styles.TextInput,
+            { color: background, backgroundColor: text },
+          ]}
           placeholder="Ask Meta AI or Search"
-          placeholderTextColor={"#999"}
+          placeholderTextColor={accent}
         />
         <View style={{ marginHorizontal: 12, marginTop: 28 }}>
           <FlatList
             data={messages}
             horizontal
+            showsHorizontalScrollIndicator={false}
             contentContainerStyle={{
               gap: 16,
             }}
@@ -56,9 +92,13 @@ const Messages = () => {
         </View>
         <View style={{ paddingHorizontal: 12, marginVertical: 28 }}>
           <View style={styles.messagesHeader}>
-            <Text style={styles.messagesHeaderText}>Messages</Text>
+            <Text style={[styles.messagesHeaderText, { color: text }]}>
+              Messages
+            </Text>
             <TouchableOpacity>
-              <Text style={styles.messagesHeaderText}>Requests</Text>
+              <Text style={[styles.messagesHeaderText, { color: text }]}>
+                Requests
+              </Text>
             </TouchableOpacity>
           </View>
           <FlatList
@@ -74,33 +114,6 @@ const Messages = () => {
     </SafeAreaView>
   );
 };
-
-export const SingleMessage = ({ item }: { item: MessageType }) => {
-  return (
-    <TouchableOpacity style={styles.chatContainer}>
-      <View style={styles.chatImageContainer}>
-        <Image
-          source={{ uri: item.image_url }}
-          style={{ backgroundColor: "red", borderRadius: 100 }}
-          width={50}
-          height={50}
-        />
-        <View>
-          <Text style={{ color: "white", fontSize: 16 }}>{item.name}</Text>
-          <Text style={{ color: "#999" }}>
-            {item.message.length <= 35
-              ? item.message
-              : `${item.message.slice(0, 35)}...`}
-          </Text>
-        </View>
-      </View>
-      <TouchableOpacity>
-        <Feather name="camera" size={24} color="gray" />
-      </TouchableOpacity>
-    </TouchableOpacity>
-  );
-};
-
 export default Messages;
 
 const styles = StyleSheet.create({

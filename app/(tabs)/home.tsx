@@ -6,14 +6,19 @@ import PostContainer from "@/components/home/PostContainer";
 import BottomSheet from "@gorhom/bottom-sheet";
 import BottomModal from "@/components/BottomModal";
 import HomeNav from "@/components/home/HomeNav";
+import { useTheme } from "@/utils/ThemeContext";
 
 const HomePage = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const { theme } = useTheme();
+  const { background, text, accent, accentText } = theme.colors;
+
   const handleOpenPress = () => {
     bottomSheetRef.current?.expand();
   };
+
   return (
-    <View style={{ backgroundColor: "black", flex: 1 }}>
+    <View style={{ backgroundColor: background, flex: 1 }}>
       <SafeAreaView>
         <ScrollView>
           <HomeNav />
@@ -24,8 +29,8 @@ const HomePage = () => {
           enablePanDownToClose={true}
           index={-1}
           ref={bottomSheetRef}
-          handleIndicatorStyle={{ backgroundColor: "gray" }}
-          backgroundStyle={{ backgroundColor: "#111" }}
+          handleIndicatorStyle={{ backgroundColor: accentText }}
+          backgroundStyle={{ backgroundColor: background }}
           snapPoints={["60%"]}
         >
           <BottomModal />

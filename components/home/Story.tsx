@@ -8,12 +8,13 @@ const Story = () => {
       <FlatList
         data={Posts}
         horizontal
+        showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
           gap: 20,
         }}
         style={{
           paddingVertical: 16,
-          marginHorizontal: 12,
+          marginLeft: 12,
         }}
         renderItem={OneStory}
       />

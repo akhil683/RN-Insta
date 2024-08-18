@@ -3,16 +3,19 @@ import React from "react";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Foundation from "@expo/vector-icons/Foundation";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { useTheme } from "@/utils/ThemeContext";
 
 export default function TabLayout() {
+  const { theme } = useTheme();
+  const { background, accentText, text } = theme.colors;
   return (
     <GestureHandlerRootView>
       <Tabs
         screenOptions={{
-          tabBarInactiveBackgroundColor: "#020617",
-          tabBarActiveBackgroundColor: "#020617",
-          tabBarActiveTintColor: "white",
-          tabBarInactiveTintColor: "#999",
+          tabBarInactiveBackgroundColor: background,
+          tabBarActiveBackgroundColor: background,
+          tabBarActiveTintColor: text,
+          tabBarInactiveTintColor: accentText,
           headerShown: false,
           tabBarShowLabel: false,
           lazy: true,

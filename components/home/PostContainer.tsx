@@ -3,12 +3,15 @@ import Posts from "@/constants/posts";
 import { PostCard } from "./PostCard";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useRef, useState } from "react";
+import { useTheme } from "@/utils/ThemeContext";
 
 const PostContainer = ({
   handleOpenPress,
 }: {
   handleOpenPress: () => void;
 }) => {
+  const { theme } = useTheme();
+  const { text, accentText } = theme.colors;
   const [visibleVideoIndex, setVisibleVideoIndex] = useState<number | null>(
     null,
   );
@@ -17,10 +20,7 @@ const PostContainer = ({
     setVisibleVideoIndex(index);
   });
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const handleModal = () => {
-    setIsModalVisible(!isModalVisible);
-  };
+  // const [isModalVisible, setIsModalVisible] = useState(false);
 
   return (
     <>
@@ -56,7 +56,7 @@ const PostContainer = ({
         <Text
           style={{
             fontSize: 20,
-            color: "white",
+            color: text,
             marginTop: 6,
           }}
         >
@@ -65,7 +65,7 @@ const PostContainer = ({
         <Text
           style={{
             textAlign: "center",
-            color: "#B4B4B4",
+            color: accentText,
             lineHeight: 20,
           }}
         >
