@@ -28,8 +28,8 @@ const Messages = () => {
           <Image
             source={{ uri: item.image_url }}
             style={{ backgroundColor: text, borderRadius: 100 }}
-            width={50}
-            height={50}
+            width={55}
+            height={55}
           />
           <View>
             <Text style={{ color: text, fontSize: 16 }}>{item.name}</Text>
@@ -65,12 +65,9 @@ const Messages = () => {
       </View>
       <ScrollView>
         <TextInput
-          style={[
-            styles.TextInput,
-            { color: background, backgroundColor: text },
-          ]}
+          style={[styles.TextInput, { color: text, backgroundColor: accent }]}
           placeholder="Ask Meta AI or Search"
-          placeholderTextColor={accent}
+          placeholderTextColor={text}
         />
         <View style={{ marginHorizontal: 12, marginTop: 28 }}>
           <FlatList
@@ -164,7 +161,7 @@ const styles = StyleSheet.create({
   },
   chatImageContainer: {
     flexDirection: "row",
-    gap: 12,
+    gap: 16,
     alignItems: "center",
   },
 });

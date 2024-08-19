@@ -80,7 +80,7 @@ const ProfilePage = () => {
             <Text
               style={[
                 styles.threads,
-                { backgroundColor: accent, color: accentText },
+                { backgroundColor: accent, color: text, opacity: 0.8 },
               ]}
             >
               {User.threadName}
@@ -92,18 +92,24 @@ const ProfilePage = () => {
 
         {/* EDIT BUTTONS */}
         <View style={styles.buttonsContainer}>
-          <TouchableOpacity style={styles.buttonText}>
-            <Text style={{ color: "#e5e4db", textAlign: "center" }}>
+          <TouchableOpacity
+            style={[styles.buttonText, { backgroundColor: accent }]}
+          >
+            <Text style={{ color: text, textAlign: "center" }}>
               Edit Profile
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonText}>
-            <Text style={{ color: "#e5e4db", textAlign: "center" }}>
+          <TouchableOpacity
+            style={[styles.buttonText, { backgroundColor: accent }]}
+          >
+            <Text style={{ color: text, textAlign: "center" }}>
               Share Profile
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.addButton}>
-            <Ionicons name="person-add-outline" size={18} color="#e5e4db" />
+          <TouchableOpacity
+            style={[styles.addButton, { backgroundColor: accent }]}
+          >
+            <Ionicons name="person-add-outline" size={18} color={text} />
           </TouchableOpacity>
         </View>
         {/* EDIT BUTTONS */}
