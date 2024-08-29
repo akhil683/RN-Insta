@@ -11,7 +11,7 @@ const PostContainer = ({
   handleOpenPress: () => void;
 }) => {
   const { theme } = useTheme();
-  const { text, accentText } = theme.colors;
+  const { background, text, accent, accentText } = theme.colors;
   const [visibleVideoIndex, setVisibleVideoIndex] = useState<number | null>(
     null,
   );
